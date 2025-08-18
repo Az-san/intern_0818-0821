@@ -1,0 +1,101 @@
+﻿顧客ID,姓,名,住所（都道府県など）,メールアドレス,電話番号,年齢,性別（コード値）,使用言語,同行者情報,宿泊回数,顧客セグメント,コミュニケーション設定,興味・関心タグ,特記事項
+C001,Smith,James,California,james.smith@example.com,1-234-567-8901,74,2,ZH,,1,first_time,digital,"#ビーチ, #自然が好き",特になし
+C002,Johnson,Elizabeth,London,elizabeth.johnson@example.com,1-234-567-8901,40,2,KO,"[{""name"": ""Johnson David"", ""relationship"": ""partner"", ""age"": 35, ""notes"": ""特になし""}, {""name"": ""Johnson Mary"", ""relationship"": ""child"", ""age"": 8, ""notes"": ""イルカが好き""}]",3,repeater,digital,#温泉,お子様向けディナーメニューの「ハンバーグ」がお好き
+C003,Smith,Linda,Seoul,linda.smith@example.com,1-234-567-8901,49,2,KO,,1,first_time,digital,"#ビーチ, #温泉, #歴史",アーリーチェックインを希望されることが多い
+C004,Jones,Linda,California,linda.jones@example.com,1-234-567-8901,65,2,KO,"[{""name"": ""Jones David"", ""relationship"": ""partner"", ""age"": 62, ""notes"": ""特になし""}]",1,first_time,digital,"#ビーチ, #ショッピング",朝食は和食を希望されることが多い
+C005,Smith,Jennifer,Texas,jennifer.smith@example.com,1-234-567-8901,42,1,ZH,,11,vip,digital,"#歴史, #アート体験, #グルメ",当ホテルの建築デザインに強い関心をお持ちだった
+C006,Smith,David,Seoul,david.smith@example.com,1-234-567-8901,26,1,ZH,,1,first_time,digital,#温泉,特になし
+C007,Johnson,Jennifer,London,jennifer.johnson@example.com,1-234-567-8901,63,1,KO,"[{""name"": ""Johnson Patricia"", ""relationship"": ""partner"", ""age"": 60, ""notes"": ""特になし""}]",2,repeater,digital,#温泉,特になし
+C008,Johnson,James,London,james.johnson@example.com,1-234-567-8901,75,1,KO,"[{""name"": ""Johnson Jennifer"", ""relationship"": ""partner"", ""age"": 76, ""notes"": ""特になし""}]",1,first_time,digital,#自然が好き,特になし
+C009,Smith,Michael,California,michael.smith@example.com,1-234-567-8901,37,1,ZH,,1,first_time,digital,"#温泉, #自然が好き, #ショッピング",アーリーチェックインを希望されることが多い
+C010,Jones,Robert,Beijing,robert.jones@example.com,1-234-567-8901,56,2,KO,"[{""name"": ""Jones James"", ""relationship"": ""partner"", ""age"": 54, ""notes"": ""特になし""}]",1,first_time,digital,"#自然が好き, #グルメ",特になし
+C011,Garcia,David,Seoul,david.garcia@example.com,1-234-567-8901,50,2,KO,,2,repeater,digital,"#歴史, #ショッピング, #ビーチ",特になし
+C012,Miller,Linda,Texas,linda.miller@example.com,1-234-567-8901,24,1,KO,"[{""name"": ""Miller Mary"", ""relationship"": ""partner"", ""age"": 29, ""notes"": ""特になし""}]",1,first_time,digital,"#温泉, #歴史",前回、夕日が見えるお部屋を大変気に入られていた
+C013,Williams,Jennifer,Shanghai,jennifer.williams@example.com,1-234-567-8901,36,1,KO,"[{""name"": ""Williams Linda"", ""relationship"": ""partner"", ""age"": 35, ""notes"": ""特になし""}]",4,repeater,digital,"#ビーチ, #温泉",特になし
+C014,Brown,Mary,New York,mary.brown@example.com,1-234-567-8901,46,1,KO,"[{""name"": ""Brown Patricia"", ""relationship"": ""partner"", ""age"": 45, ""notes"": ""特になし""}]",4,repeater,digital,"#歴史, #グルメ",特になし
+C015,Garcia,Mary,California,mary.garcia@example.com,1-234-567-8901,64,1,EN,"[{""name"": ""Garcia Elizabeth"", ""relationship"": ""partner"", ""age"": 61, ""notes"": ""特になし""}, {""name"": ""Garcia John"", ""relationship"": ""child"", ""age"": 9, ""notes"": ""イルカが好き""}]",4,repeater,analog,"#ショッピング, #グルメ",特になし
+C016,Miller,James,California,james.miller@example.com,1-234-567-8901,30,1,KO,"[{""name"": ""Miller Patricia"", ""relationship"": ""partner"", ""age"": 34, ""notes"": ""特になし""}, {""name"": ""Miller Jennifer"", ""relationship"": ""child"", ""age"": 6, ""notes"": ""イルカが好き""}]",2,repeater,analog,"#自然が好き, #グルメ",特になし
+C017,Johnson,Mary,Shanghai,mary.johnson@example.com,1-234-567-8901,37,2,EN,,1,first_time,analog,"#ビーチ, #自然が好き, #グルメ",特になし
+C018,Brown,Patricia,Beijing,patricia.brown@example.com,1-234-567-8901,45,1,ZH,"[{""name"": ""Brown Linda"", ""relationship"": ""partner"", ""age"": 49, ""notes"": ""特になし""}]",1,first_time,digital,"#グルメ, #自然が好き, #歴史",特になし
+C019,Williams,David,Seoul,david.williams@example.com,1-234-567-8901,66,1,ZH,,1,first_time,digital,"#歴史, #温泉, #自然が好き",朝食は和食を希望されることが多い
+C020,Smith,John,London,john.smith@example.com,1-234-567-8901,46,2,EN,,1,first_time,digital,#ショッピング,特になし
+C021,Brown,Elizabeth,Shanghai,elizabeth.brown@example.com,1-234-567-8901,37,2,ZH,"[{""name"": ""Brown Robert"", ""relationship"": ""partner"", ""age"": 35, ""notes"": ""特になし""}]",3,repeater,analog,"#歴史, #ビーチ",特になし
+C022,Jones,Jennifer,Seoul,jennifer.jones@example.com,1-234-567-8901,25,1,EN,,5,repeater,digital,"#アート体験, #ビーチ",レストラン「琉球」の特定のディナーコースがお好き
+C023,Davis,James,London,james.davis@example.com,1-234-567-8901,24,2,ZH,,2,repeater,digital,"#アート体験, #温泉",特になし
+C024,Miller,Linda,Texas,linda.miller@example.com,1-234-567-8901,62,1,EN,"[{""name"": ""Miller Patricia"", ""relationship"": ""partner"", ""age"": 67, ""notes"": ""特になし""}]",5,repeater,digital,"#ショッピング, #歴史, #ビーチ",特になし
+C025,Davis,David,Seoul,david.davis@example.com,1-234-567-8901,57,1,EN,"[{""name"": ""Davis Linda"", ""relationship"": ""partner"", ""age"": 52, ""notes"": ""特になし""}]",1,first_time,analog,#歴史,特になし
+C026,Jones,Michael,Texas,michael.jones@example.com,1-234-567-8901,55,1,KO,,1,first_time,digital,"#アート体験, #ビーチ",特になし
+C027,Jones,Patricia,New York,patricia.jones@example.com,1-234-567-8901,71,2,EN,,4,repeater,digital,"#温泉, #ビーチ, #歴史",静かな環境を特に好まれる
+C028,Brown,Linda,Seoul,linda.brown@example.com,1-234-567-8901,37,2,EN,"[{""name"": ""Brown John"", ""relationship"": ""partner"", ""age"": 42, ""notes"": ""特になし""}]",1,first_time,analog,"#ビーチ, #温泉, #アート体験",レストラン「琉球」の特定のディナーコースがお好き
+C029,Williams,Patricia,Shanghai,patricia.williams@example.com,1-234-567-8901,31,1,ZH,,1,first_time,analog,"#歴史, #ビーチ, #グルメ",特になし
+C030,Brown,John,New York,john.brown@example.com,1-234-567-8901,45,1,EN,,1,first_time,digital,"#歴史, #ビーチ",特になし
+C031,山本,陽子,愛知県,陽子.山本@example.com,090-1234-5678,28,1,JA,"[{""name"": ""山本 恵子"", ""relationship"": ""partner"", ""age"": 27, ""notes"": ""特になし""}]",2,repeater,digital,"#アート体験, #歴史",当ホテルの建築デザインに強い関心をお持ちだった
+C032,田中,さくら,福岡県,さくら.田中@example.com,090-1234-5678,44,1,JA,"[{""name"": ""田中 さくら"", ""relationship"": ""partner"", ""age"": 48, ""notes"": ""特になし""}]",8,vip,digital,"#ショッピング, #ビーチ",特になし
+C033,鈴木,恵子,北海道,恵子.鈴木@example.com,090-1234-5678,35,2,JA,"[{""name"": ""鈴木 大輔"", ""relationship"": ""partner"", ""age"": 38, ""notes"": ""特になし""}]",3,repeater,analog,#ショッピング,特になし
+C034,小林,健太,東京都,健太.小林@example.com,090-1234-5678,23,1,JA,"[{""name"": ""小林 陽子"", ""relationship"": ""partner"", ""age"": 25, ""notes"": ""特になし""}]",1,first_time,digital,"#ショッピング, #ビーチ, #自然が好き",前回、夕日が見えるお部屋を大変気に入られていた
+C035,山本,さくら,北海道,さくら.山本@example.com,090-1234-5678,41,1,JA,"[{""name"": ""山本 さくら"", ""relationship"": ""partner"", ""age"": 42, ""notes"": ""特になし""}]",1,first_time,digital,"#温泉, #アート体験",特になし
+C036,渡辺,恵子,兵庫県,恵子.渡辺@example.com,090-1234-5678,32,1,JA,,1,first_time,digital,#アート体験,特になし
+C037,田中,陽一,福岡県,陽一.田中@example.com,090-1234-5678,42,2,JA,,1,first_time,digital,"#温泉, #ショッピング, #歴史",特になし
+C038,渡辺,陽一,愛知県,陽一.渡辺@example.com,090-1234-5678,33,1,JA,"[{""name"": ""渡辺 さくら"", ""relationship"": ""partner"", ""age"": 34, ""notes"": ""特になし""}]",3,repeater,analog,"#ビーチ, #歴史",特になし
+C039,山本,さくら,大阪府,さくら.山本@example.com,090-1234-5678,46,2,JA,,2,repeater,digital,#ビーチ,特になし
+C040,小林,太郎,兵庫県,太郎.小林@example.com,090-1234-5678,62,1,JA,,4,repeater,digital,#歴史,特になし
+C041,山本,愛,東京都,愛.山本@example.com,090-1234-5678,53,2,JA,"[{""name"": ""山本 陽一"", ""relationship"": ""partner"", ""age"": 48, ""notes"": ""特になし""}]",1,first_time,digital,"#温泉, #歴史",レストラン「琉球」の特定のディナーコースがお好き
+C042,佐藤,健太,北海道,健太.佐藤@example.com,090-1234-5678,24,2,JA,,4,repeater,digital,#自然が好き,特になし
+C043,鈴木,さくら,北海道,さくら.鈴木@example.com,090-1234-5678,72,1,JA,,16,vip,digital,"#グルメ, #自然が好き",特になし
+C044,小林,陽子,埼玉県,陽子.小林@example.com,090-1234-5678,35,2,JA,,1,first_time,digital,"#歴史, #アート体験",特になし
+C045,山本,愛,福岡県,愛.山本@example.com,090-1234-5678,62,1,JA,,3,repeater,digital,"#自然が好き, #ビーチ",特になし
+C046,鈴木,大輔,兵庫県,大輔.鈴木@example.com,090-1234-5678,33,9,JA,,1,first_time,digital,"#自然が好き, #アート体験, #ビーチ",特になし
+C047,佐藤,大輔,福岡県,大輔.佐藤@example.com,090-1234-5678,42,2,JA,"[{""name"": ""佐藤 大輔"", ""relationship"": ""partner"", ""age"": 41, ""notes"": ""特になし""}, {""name"": ""佐藤 太郎"", ""relationship"": ""child"", ""age"": 5, ""notes"": ""アレルギーなし""}]",4,repeater,digital,#グルメ,特になし
+C048,山本,誠,愛知県,誠.山本@example.com,090-1234-5678,20,9,JA,,1,first_time,digital,"#グルメ, #ビーチ, #ショッピング",特になし
+C049,山本,太郎,東京都,太郎.山本@example.com,090-1234-5678,71,2,JA,,1,first_time,digital,"#アート体験, #温泉",特になし
+C050,山本,健太,兵庫県,健太.山本@example.com,090-1234-5678,75,2,JA,,5,repeater,digital,"#グルメ, #歴史",特になし
+C051,佐藤,恵子,東京都,恵子.佐藤@example.com,090-1234-5678,47,2,JA,"[{""name"": ""佐藤 健太"", ""relationship"": ""partner"", ""age"": 50, ""notes"": ""特になし""}, {""name"": ""佐藤 恵子"", ""relationship"": ""child"", ""age"": 5, ""notes"": ""アレルギーなし""}]",4,repeater,digital,"#ビーチ, #グルメ",特になし
+C052,田中,愛,埼玉県,愛.田中@example.com,090-1234-5678,20,1,JA,,1,first_time,digital,"#ショッピング, #グルメ, #自然が好き",レストラン「琉球」の特定のディナーコースがお好き
+C053,小林,愛,北海道,愛.小林@example.com,090-1234-5678,72,1,JA,,19,vip,digital,#グルメ,特になし
+C054,鈴木,愛,兵庫県,愛.鈴木@example.com,090-1234-5678,47,2,JA,"[{""name"": ""鈴木 陽一"", ""relationship"": ""partner"", ""age"": 49, ""notes"": ""特になし""}]",3,repeater,digital,"#ショッピング, #ビーチ",特になし
+C055,鈴木,太郎,愛知県,太郎.鈴木@example.com,090-1234-5678,34,2,JA,"[{""name"": ""鈴木 健太"", ""relationship"": ""partner"", ""age"": 37, ""notes"": ""特になし""}, {""name"": ""鈴木 健太"", ""relationship"": ""child"", ""age"": 7, ""notes"": ""アレルギーなし""}]",3,repeater,analog,"#ショッピング, #ビーチ",特になし
+C056,加藤,太郎,兵庫県,太郎.加藤@example.com,090-1234-5678,24,2,JA,,13,vip,digital,"#グルメ, #自然が好き, #ショッピング",特になし
+C057,伊藤,美咲,北海道,美咲.伊藤@example.com,090-1234-5678,29,1,JA,,11,vip,digital,"#グルメ, #ショッピング, #歴史",特になし
+C058,鈴木,陽子,愛知県,陽子.鈴木@example.com,090-1234-5678,29,2,JA,"[{""name"": ""鈴木 太郎"", ""relationship"": ""partner"", ""age"": 33, ""notes"": ""特になし""}]",5,repeater,digital,#ビーチ,特になし
+C059,小林,愛,神奈川県,愛.小林@example.com,090-1234-5678,29,2,JA,,1,first_time,digital,#ショッピング,レストラン「琉球」の特定のディナーコースがお好き
+C060,田中,誠,愛知県,誠.田中@example.com,090-1234-5678,20,1,JA,"[{""name"": ""田中 美咲"", ""relationship"": ""partner"", ""age"": 18, ""notes"": ""特になし""}]",15,vip,analog,#アート体験,特になし
+C061,高橋,さくら,神奈川県,さくら.高橋@example.com,090-1234-5678,67,1,JA,"[{""name"": ""高橋 陽子"", ""relationship"": ""partner"", ""age"": 63, ""notes"": ""特になし""}]",1,first_time,digital,"#ショッピング, #温泉, #自然が好き",特になし
+C062,山本,陽一,東京都,陽一.山本@example.com,090-1234-5678,38,1,JA,"[{""name"": ""山本 美咲"", ""relationship"": ""partner"", ""age"": 41, ""notes"": ""特になし""}]",5,repeater,analog,"#歴史, #ビーチ, #グルメ",読書家で、静かな時間を好まれる
+C063,鈴木,太郎,東京都,太郎.鈴木@example.com,090-1234-5678,46,1,JA,,1,first_time,analog,#自然が好き,特になし
+C064,加藤,健太,大阪府,健太.加藤@example.com,090-1234-5678,28,1,JA,"[{""name"": ""加藤 美咲"", ""relationship"": ""partner"", ""age"": 24, ""notes"": ""特になし""}]",2,repeater,digital,"#グルメ, #ビーチ, #歴史",アーリーチェックインを希望されることが多い
+C065,中村,陽一,兵庫県,陽一.中村@example.com,090-1234-5678,32,1,JA,"[{""name"": ""中村 愛"", ""relationship"": ""partner"", ""age"": 33, ""notes"": ""特になし""}]",1,first_time,analog,#アート体験,特になし
+C066,山本,大輔,北海道,大輔.山本@example.com,090-1234-5678,52,1,JA,,1,first_time,analog,#グルメ,特になし
+C067,渡辺,太郎,埼玉県,太郎.渡辺@example.com,090-1234-5678,31,1,JA,,1,first_time,digital,#アート体験,特になし
+C068,中村,太郎,兵庫県,太郎.中村@example.com,090-1234-5678,25,2,JA,"[{""name"": ""中村 陽一"", ""relationship"": ""partner"", ""age"": 27, ""notes"": ""特になし""}]",1,first_time,analog,"#ビーチ, #ショッピング, #温泉",特になし
+C069,高橋,恵子,神奈川県,恵子.高橋@example.com,090-1234-5678,65,1,JA,"[{""name"": ""高橋 さくら"", ""relationship"": ""partner"", ""age"": 70, ""notes"": ""特になし""}]",1,first_time,digital,"#温泉, #グルメ, #ショッピング",朝食は和食を希望されることが多い
+C070,山本,大輔,兵庫県,大輔.山本@example.com,090-1234-5678,26,2,JA,"[{""name"": ""山本 健太"", ""relationship"": ""partner"", ""age"": 23, ""notes"": ""特になし""}, {""name"": ""山本 太郎"", ""relationship"": ""child"", ""age"": 3, ""notes"": ""アレルギーなし""}]",5,repeater,digital,#ショッピング,特になし
+C071,小林,健太,北海道,健太.小林@example.com,090-1234-5678,31,2,JA,,20,vip,digital,"#グルメ, #アート体験",特になし
+C072,佐藤,陽子,福岡県,陽子.佐藤@example.com,090-1234-5678,51,2,JA,"[{""name"": ""佐藤 陽一"", ""relationship"": ""partner"", ""age"": 55, ""notes"": ""特になし""}, {""name"": ""佐藤 陽子"", ""relationship"": ""child"", ""age"": 7, ""notes"": ""イルカが好き""}]",3,repeater,analog,#ビーチ,特になし
+C073,小林,さくら,大阪府,さくら.小林@example.com,090-1234-5678,28,1,JA,,1,first_time,digital,"#温泉, #ビーチ",特になし
+C074,鈴木,陽一,愛知県,陽一.鈴木@example.com,090-1234-5678,37,1,JA,"[{""name"": ""鈴木 陽子"", ""relationship"": ""partner"", ""age"": 34, ""notes"": ""特になし""}]",1,first_time,digital,#温泉,当ホテルの建築デザインに強い関心をお持ちだった
+C075,山本,美咲,北海道,美咲.山本@example.com,090-1234-5678,62,2,JA,"[{""name"": ""山本 太郎"", ""relationship"": ""partner"", ""age"": 63, ""notes"": ""特になし""}]",1,first_time,digital,"#歴史, #ビーチ",特になし
+C076,山本,愛,大阪府,愛.山本@example.com,090-1234-5678,62,2,JA,,1,first_time,digital,#温泉,特になし
+C077,中村,陽一,北海道,陽一.中村@example.com,090-1234-5678,42,1,JA,,3,repeater,analog,#温泉,特になし
+C078,小林,太郎,大阪府,太郎.小林@example.com,090-1234-5678,37,1,JA,,1,first_time,analog,#ショッピング,特になし
+C079,小林,陽子,埼玉県,陽子.小林@example.com,090-1234-5678,39,1,JA,,13,vip,analog,"#アート体験, #ショッピング",特になし
+C080,伊藤,恵子,福岡県,恵子.伊藤@example.com,090-1234-5678,69,2,JA,"[{""name"": ""伊藤 大輔"", ""relationship"": ""partner"", ""age"": 73, ""notes"": ""特になし""}]",1,first_time,analog,"#ショッピング, #アート体験, #自然が好き",特になし
+C081,高橋,さくら,兵庫県,さくら.高橋@example.com,090-1234-5678,25,1,JA,,4,repeater,digital,#歴史,レストラン「琉球」の特定のディナーコースがお好き
+C082,山本,誠,東京都,誠.山本@example.com,090-1234-5678,61,2,JA,,10,vip,analog,"#温泉, #アート体験",特になし
+C083,山本,さくら,大阪府,さくら.山本@example.com,090-1234-5678,32,2,JA,"[{""name"": ""山本 大輔"", ""relationship"": ""partner"", ""age"": 28, ""notes"": ""特になし""}]",1,first_time,analog,#ビーチ,特になし
+C084,高橋,陽子,福岡県,陽子.高橋@example.com,090-1234-5678,48,2,JA,"[{""name"": ""高橋 陽一"", ""relationship"": ""partner"", ""age"": 48, ""notes"": ""特になし""}]",1,first_time,digital,#歴史,特になし
+C085,鈴木,恵子,兵庫県,恵子.鈴木@example.com,090-1234-5678,35,2,JA,,1,first_time,digital,"#自然が好き, #アート体験",特になし
+C086,山本,健太,神奈川県,健太.山本@example.com,090-1234-5678,45,1,JA,"[{""name"": ""山本 愛"", ""relationship"": ""partner"", ""age"": 40, ""notes"": ""特になし""}, {""name"": ""山本 陽子"", ""relationship"": ""child"", ""age"": 5, ""notes"": ""イルカが好き""}]",2,repeater,digital,"#ビーチ, #アート体験, #自然が好き",特になし
+C087,伊藤,陽一,神奈川県,陽一.伊藤@example.com,090-1234-5678,56,1,JA,,1,first_time,digital,"#温泉, #アート体験",特になし
+C088,小林,恵子,福岡県,恵子.小林@example.com,090-1234-5678,61,1,JA,,2,repeater,digital,"#アート体験, #温泉, #グルメ",当ホテルの建築デザインに強い関心をお持ちだった
+C089,高橋,さくら,兵庫県,さくら.高橋@example.com,090-1234-5678,47,2,JA,,1,first_time,digital,#グルメ,読書家で、静かな時間を好まれる
+C090,山本,陽子,東京都,陽子.山本@example.com,090-1234-5678,29,2,JA,"[{""name"": ""山本 陽一"", ""relationship"": ""partner"", ""age"": 33, ""notes"": ""特になし""}]",1,first_time,digital,"#歴史, #アート体験, #ビーチ",特になし
+C091,高橋,誠,大阪府,誠.高橋@example.com,090-1234-5678,70,2,JA,,1,first_time,digital,"#アート体験, #歴史, #温泉",朝食は和食を希望されることが多い
+C092,伊藤,さくら,東京都,さくら.伊藤@example.com,090-1234-5678,21,1,JA,"[{""name"": ""伊藤 美咲"", ""relationship"": ""partner"", ""age"": 21, ""notes"": ""特になし""}]",3,repeater,digital,#歴史,当ホテルの建築デザインに強い関心をお持ちだった
+C093,小林,健太,北海道,健太.小林@example.com,090-1234-5678,29,2,JA,"[{""name"": ""小林 大輔"", ""relationship"": ""partner"", ""age"": 30, ""notes"": ""特になし""}]",1,first_time,analog,"#温泉, #ショッピング, #自然が好き",特になし
+C094,鈴木,恵子,大阪府,恵子.鈴木@example.com,090-1234-5678,74,1,JA,,1,first_time,digital,#温泉,お部屋に椅子を追加でご用意すると喜ばれる
+C095,加藤,大輔,神奈川県,大輔.加藤@example.com,090-1234-5678,43,2,JA,,1,first_time,analog,#ショッピング,特になし
+C096,田中,健太,東京都,健太.田中@example.com,090-1234-5678,34,2,JA,"[{""name"": ""田中 大輔"", ""relationship"": ""partner"", ""age"": 35, ""notes"": ""特になし""}]",1,first_time,digital,"#ショッピング, #自然が好き, #歴史",特になし
+C097,鈴木,美咲,愛知県,美咲.鈴木@example.com,090-1234-5678,54,2,JA,"[{""name"": ""鈴木 陽一"", ""relationship"": ""partner"", ""age"": 55, ""notes"": ""特になし""}]",1,first_time,digital,"#歴史, #温泉, #自然が好き",レストラン「琉球」の特定のディナーコースがお好き
+C098,高橋,誠,愛知県,誠.高橋@example.com,090-1234-5678,58,1,JA,"[{""name"": ""高橋 美咲"", ""relationship"": ""partner"", ""age"": 62, ""notes"": ""特になし""}]",4,repeater,digital,"#アート体験, #ショッピング, #グルメ",アーリーチェックインを希望されることが多い
+C099,渡辺,太郎,大阪府,太郎.渡辺@example.com,090-1234-5678,60,1,JA,"[{""name"": ""渡辺 さくら"", ""relationship"": ""partner"", ""age"": 58, ""notes"": ""特になし""}]",1,first_time,digital,"#グルメ, #ショッピング",特になし
+C100,高橋,大輔,神奈川県,大輔.高橋@example.com,090-1234-5678,69,1,JA,"[{""name"": ""高橋 美咲"", ""relationship"": ""partner"", ""age"": 67, ""notes"": ""特になし""}]",2,repeater,digital,"#ビーチ, #自然が好き",特になし
