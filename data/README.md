@@ -24,3 +24,25 @@
 
 
 
+## 対応テーブル（support_dummy_data.csv）
+
+### 概要
+- **追加目的**: 過去に対応したコンシェルジュを管理するための履歴テーブル
+- **ファイル**: `data/support_dummy_data.csv`
+
+### スキーマ（列定義）
+| 列名 | 型 | 例 | 説明 |
+|---|---|---|---|
+| 対応ID | string | S001 | 主キー（PK） |
+| 従業員ID | string | STF001 | 外部キー（FK）。従業員テーブルを想定 |
+| 顧客ID | string | C001 | 外部キー（FK）。`customer.csv` の `顧客ID` を参照 |
+| 対応内容 | string | チェックイン手続きのサポート | 対応の要約説明 |
+| 対応日時 | datetime | 2024-02-01 15:15:00 | 対応が実施された日時（YYYY-MM-DD HH:MM:SS） |
+
+### キーとリレーション
+- PK: `対応ID`
+- FK: `顧客ID` → `customer.csv`.`顧客ID`
+- FK: `従業員ID` → 従業員テーブル（別途定義を想定）
+
+※ `customer.csv` と `support_dummy_data.csv` は `顧客ID` で結合可能です。
+
