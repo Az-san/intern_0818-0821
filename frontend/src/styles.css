@@ -1,0 +1,73 @@
+:root{ --gap:12px; --muted:#6b7280 }
+*{ box-sizing: border-box }
+body{ margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial }
+/* Global background image (set the image at /public/beach.jpg) */
+body::before{
+  content:"";
+  position:fixed; inset:0; z-index:-2;
+  background-image: url('/beach.jpg');
+  background-size: cover; background-position: center; background-repeat:no-repeat;
+  filter: blur(12px);
+  transform: scale(1.03); /* avoid blur edges */
+}
+/* Slight veil to achieve ~30% softening */
+body::after{
+  content:"";
+  position:fixed; inset:0; z-index:-1;
+  background: rgba(255,255,255,0.30);
+}
+/* Living Background variables (updated via JS) */
+body{
+  --sky-start:#87CEEB; /* 晴れ既定 */
+  --sky-end:#f0f8ff;
+  --sea-start:#34d399; /* 浅瀬エメラルド */
+  --sea-end:#0ea5e9;   /* ディープブルー */
+  background: linear-gradient(to bottom, var(--sky-start) 0%, var(--sky-end) 50%, var(--sea-start) 75%, var(--sea-end) 100%);
+}
+.app__header,.app__footer{ padding:12px 16px; border-bottom:1px solid #eee }
+.app__header--hot{ background: linear-gradient(90deg,#fde68a,#f59e0b); }
+.app__header--mild{ background: linear-gradient(90deg,#bfdbfe,#93c5fd); }
+.app__header--cold{ background: linear-gradient(90deg,#c7d2fe,#a5b4fc); }
+.app__header--rain{ background: linear-gradient(90deg,#a7f3d0,#60a5fa); }
+.app__footer{ border-top:1px solid #eee; border-bottom:none; display:flex; justify-content:flex-end; gap:8px }
+.tabbar{ position:sticky; top:0; display:flex; gap:8px; padding:8px; backdrop-filter: blur(10px) }
+.tabbar__btn{ flex:1; padding:8px 12px; border-radius:999px; border:1px solid #d1d5db; background:rgba(255,255,255,.6); transition: transform .15s ease, background-color .15s ease }
+.tabbar__btn.is-active{ background:#2563eb; color:#fff; border-color:#2563eb; transform: translateY(-1px) }
+.layout{ display:grid; grid-template-columns: 360px 1fr; gap: var(--gap); padding: var(--gap) }
+.card{ border-radius:16px; padding:12px }
+.glass{ backdrop-filter: blur(12px); background-color: rgba(255,255,255,0.25); border:1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.08) }
+.row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:6px 0 }
+.grid{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:8px }
+.chips{ display:flex; gap:8px; flex-wrap:wrap }
+.chip{ border:1px solid #ccc; padding:4px 8px; border-radius:16px; background:#fafafa }
+.chip--on{ background:#2563eb; color:#fff; border-color:#2563eb }
+.list{ display:flex; flex-direction:column; gap:8px }
+.list__item{ display:flex; justify-content:space-between; align-items:center; gap:8px; padding:8px; border:1px solid #eee; border-radius:8px }
+.selectable{ cursor:pointer; transition: background-color .15s ease, border-color .15s ease }
+.selectable:hover{ background-color: rgba(0,0,0,.03) }
+.selectable.selected{ background-color: rgba(0,0,0,.06); border-color:#d1d5db }
+.muted{ color: var(--muted); font-size:12px }
+.summary{ display:flex; gap:12px; align-items:center }
+.status{ font-weight:600 }
+.status--ok{ color:#16a34a }
+.status--warn{ color:#d97706 }
+.status--ng{ color:#dc2626 }
+.timeline{ display:grid; gap:8px }
+.piece{ border:1px solid #eee; border-radius:8px; padding:8px }
+.piece__head{ display:flex; justify-content:space-between; align-items:center }
+.badge{ padding:2px 6px; background:#eee; border-radius:999px; font-size:11px }
+.modal{ position:fixed; inset:0; background:rgba(0,0,0,.2); display:flex; align-items:center; justify-content:center }
+.modal__content{ background:#fff; padding:16px; border-radius:8px; min-width:320px }
+.modal__actions{ display:flex; justify-content:flex-end; gap:8px; margin-top:12px }
+
+/* WeatherBar */
+.weatherbar{ display:flex; justify-content:space-between; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; color:#0b1727; font-weight:600; font-size:14px }
+.weatherbar__icon{ font-size:18px; margin-right:4px }
+.weatherbar__temp{ margin-right:6px }
+.weatherbar__hum{ color:rgba(0,0,0,.6); font-weight:500; font-size:12px }
+.weatherbar--hot{ background: linear-gradient(90deg, #fde68a, #f59e0b); }
+.weatherbar--mild{ background: linear-gradient(90deg, #bfdbfe, #93c5fd); }
+.weatherbar--cold{ background: linear-gradient(90deg, #c7d2fe, #a5b4fc); }
+.weatherbar--rain{ background: linear-gradient(90deg, #a7f3d0, #60a5fa); }
+
+
