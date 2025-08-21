@@ -47,8 +47,48 @@ class ItineraryService:
             
             waypoints = route['waypoints']
             schedule = []
-            
-            for i, waypoint in enumerate(waypoints):
+
+            # 先頭が出発地（START/スタート）の場合は、到着・滞在を入れずに「出発→移動」を先に記録
+            start_index = 0
+            if waypoints:
+                w0 = waypoints[0]
+                w0_id = str(w0.get('destination_id') or '').upper()
+                w0_name = str(w0.get('name') or '')
+                is_start = (
+                    w0_id == 'START' or
+                    w0_name in ['スタート', 'START'] or
+                    int(w0.get('estimated_stay_minutes', 0) or 0) == 0
+                )
+                if is_start and len(waypoints) >= 2:
+                    origin_label = 'ホテル'
+                    # 出発イベント
+                    schedule.append({
+                        'time': current_time.strftime('%H:%M'),
+                        'activity_type': 'departure',
+                        'location': origin_label,
+                        'description': f"{origin_label}から出発"
+                    })
+                    # 移動イベント（スタート→最初の実スポット）
+                    travel_info = w0.get('travel_to_next')
+                    if travel_info:
+                        travel_duration = travel_info['duration_minutes']
+                        next_location = waypoints[1]['name']
+                        schedule.append({
+                            'time': f"{current_time.strftime('%H:%M')}-{(current_time + timedelta(minutes=travel_duration)).strftime('%H:%M')}",
+                            'activity_type': 'travel',
+                            'from': origin_label,
+                            'to': next_location,
+                            'description': f"移動 ({travel_info['distance_km']}km, {travel_duration}分)",
+                            'travel_time_minutes': travel_duration,
+                            'distance_km': travel_info['distance_km']
+                        })
+                        # 時間を進める（移動＋バッファ）
+                        current_time += timedelta(minutes=travel_duration)
+                        current_time += timedelta(minutes=self.default_buffer_minutes)
+                    start_index = 1
+
+            for i in range(start_index, len(waypoints)):
+                waypoint = waypoints[i]
                 # 到着イベント
                 arrival_event = {
                     'time': current_time.strftime('%H:%M'),

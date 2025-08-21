@@ -25,6 +25,27 @@ class DataLoader:
                     dest['tags'] = [tag.strip() for tag in dest['tags'].split(',')]
                 else:
                     dest['tags'] = []
+                # 追加列の型変換（存在しない場合はNone/0）
+                def to_int(v):
+                    try:
+                        return int(v)
+                    except Exception:
+                        return None
+                dest['price_min_yen'] = to_int(dest.get('price_min_yen'))
+                dest['price_max_yen'] = to_int(dest.get('price_max_yen'))
+                try:
+                    dest['crowd_level'] = int(dest.get('crowd_level')) if dest.get('crowd_level') not in (None, '') else None
+                except Exception:
+                    dest['crowd_level'] = None
+                # フラグ類
+                def to_bool(v):
+                    return str(v).strip() in ('1', 'true', 'True')
+                if 'indoor' in dest:
+                    dest['indoor'] = to_bool(dest.get('indoor'))
+                if 'barrier_free' in dest:
+                    dest['barrier_free'] = to_bool(dest.get('barrier_free'))
+                if 'stroller_friendly' in dest:
+                    dest['stroller_friendly'] = to_bool(dest.get('stroller_friendly'))
         
         return self._destinations_cache
     
@@ -51,7 +72,26 @@ class DataLoader:
         
         for customer in customers:
             if customer.get('顧客ID') == customer_id:
-                return customer
+                # 付加情報（同行者/特記事項から派生）
+                import json as _json
+                out = dict(customer)
+                # adults/children推定
+                adults = 1
+                children = 0
+                comp = customer.get('同行者情報') or ''
+                try:
+                    if comp:
+                        data = _json.loads(comp)
+                        children = sum(1 for c in data if (c.get('relationship') == 'child'))
+                        adults = 1 + sum(1 for c in data if (c.get('relationship') == 'partner'))
+                except Exception:
+                    pass
+                out['adults'] = adults
+                out['children'] = children
+                notes = (customer.get('特記事項') or '')
+                out['needs_stroller'] = ('ベビーカー' in notes)
+                out['needs_wheelchair'] = ('車椅子' in notes or '車いす' in notes)
+                return out
         return None
     
     def get_destination_by_id(self, destination_id: str) -> Optional[Dict]:

@@ -15,7 +15,8 @@ class DestinationService:
         self.recommendation_engine = recommendation_engine
     
     def get_recommended_destinations(self, customer_id: str, weather: str = 'sunny', 
-                                   season: str = 'spring', limit: int = 10) -> Dict:
+                                   season: str = 'spring', limit: int = 10,
+                                   budget_yen: Optional[int] = None, crowd_avoid: Optional[str] = None) -> Dict:
         """
         顧客に対する推薦観光地を取得
         
@@ -50,6 +51,15 @@ class DestinationService:
                 all_destinations, weather, season
             )
             
+            # 追加の顧客パラメータを顧客辞書に注入（スコアロジック用）
+            if budget_yen is not None:
+                customer['budget_yen'] = budget_yen
+            if crowd_avoid is not None:
+                customer['crowd_avoid'] = crowd_avoid
+            # 天気・季節も注入（推薦スコアで使用）
+            customer['weather'] = weather  # 'sunny' | 'rainy' | 'cloudy'
+            customer['season'] = season    # 'spring' | 'summer' | 'autumn' | 'winter'
+
             # 推薦スコア計算とソート
             recommended_destinations = self.recommendation_engine.sort_destinations_by_score(
                 customer, filtered_destinations
@@ -57,6 +67,9 @@ class DestinationService:
             
             # 上位limit件に制限
             top_destinations = recommended_destinations[:limit]
+            # それ以外（スコア順）の一覧
+            top_ids = {d.get('destination_id') for d in top_destinations}
+            other_destinations = [d for d in recommended_destinations if d.get('destination_id') not in top_ids]
             
             # レスポンス形式に整形
             return {
@@ -71,11 +84,17 @@ class DestinationService:
                 'search_params': {
                     'weather': weather,
                     'season': season,
-                    'limit': limit
+                    'limit': limit,
+                    'budget_yen': budget_yen,
+                    'crowd_avoid': crowd_avoid
                 },
                 'destinations': [
                     self._format_destination_response(dest) 
                     for dest in top_destinations
+                ],
+                'others': [
+                    self._format_destination_response(dest)
+                    for dest in other_destinations
                 ],
                 'total_found': len(recommended_destinations)
             }

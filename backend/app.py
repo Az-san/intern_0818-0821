@@ -14,9 +14,10 @@ def create_app():
     # 設定
     app.config['JSON_AS_ASCII'] = False  # 日本語文字化け防止
     # CORS (dev)
+    # 開発中は LAN 上のスマホアクセスも許可
     CORS(
         app,
-        resources={r"/api/*": {"origins": ["http://localhost:5173", "http://127.0.0.1:5173"]}},
+        resources={r"/api/*": {"origins": "*"}},
         supports_credentials=True,
         allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
         methods=["GET", "POST", "OPTIONS"],

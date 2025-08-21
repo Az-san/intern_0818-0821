@@ -1,4 +1,8 @@
-:root{ --gap:12px; --muted:#6b7280 }
+:root{ --gap:12px; --muted:#6b7280; --header-h:56px; --subheader-h:56px }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 *{ box-sizing: border-box }
 body{ margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial }
 /* Global background image (set the image at /public/beach.jpg) */
@@ -25,14 +29,22 @@ body{
   background: linear-gradient(to bottom, var(--sky-start) 0%, var(--sky-end) 50%, var(--sea-start) 75%, var(--sea-end) 100%);
 }
 .app__header,.app__footer{ padding:12px 16px; border-bottom:1px solid #eee }
+/* Sticky header */
+.app__header{ position: sticky; top: 0; z-index: 1200; min-height: var(--header-h) }
 .app__header--hot{ background: linear-gradient(90deg,#fde68a,#f59e0b); }
 .app__header--mild{ background: linear-gradient(90deg,#bfdbfe,#93c5fd); }
 .app__header--cold{ background: linear-gradient(90deg,#c7d2fe,#a5b4fc); }
 .app__header--rain{ background: linear-gradient(90deg,#a7f3d0,#60a5fa); }
+/* Fixed navy header theme */
+.app__header--navy{ background: linear-gradient(90deg,#0f172a,#1e3a8a); color:#fff }
+/* Hotel app blue header */
+.app__header--hotel{ background:#3b82f6; color:#fff }
 .app__footer{ border-top:1px solid #eee; border-bottom:none; display:flex; justify-content:flex-end; gap:8px }
-.tabbar{ position:sticky; top:0; display:flex; gap:8px; padding:8px; backdrop-filter: blur(10px) }
-.tabbar__btn{ flex:1; padding:8px 12px; border-radius:999px; border:1px solid #d1d5db; background:rgba(255,255,255,.6); transition: transform .15s ease, background-color .15s ease }
-.tabbar__btn.is-active{ background:#2563eb; color:#fff; border-color:#2563eb; transform: translateY(-1px) }
+/* Sticky tabbar under header */
+.tabbar{ position:sticky; top:calc(var(--header-h) + var(--subheader-h)); display:flex; gap:8px; padding:8px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index:1150 }
+.tabbar__btn{ flex:1; padding:10px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.35); background:rgba(15,23,42,0.35); color:#e5e7eb; font-weight:600; transition: transform .15s ease, background-color .15s ease, color .15s ease, border-color .15s ease }
+.tabbar__btn:hover{ background:rgba(15,23,42,0.48) }
+.tabbar__btn.is-active{ background:#2563eb; color:#fff; border-color:#60a5fa; box-shadow:0 4px 14px rgba(37,99,235,0.35); transform: translateY(-1px) }
 .layout{ display:grid; grid-template-columns: 360px 1fr; gap: var(--gap); padding: var(--gap) }
 .card{ border-radius:16px; padding:12px }
 .glass{ backdrop-filter: blur(12px); background-color: rgba(255,255,255,0.25); border:1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.08) }
@@ -70,4 +82,22 @@ body{
 .weatherbar--cold{ background: linear-gradient(90deg, #c7d2fe, #a5b4fc); }
 .weatherbar--rain{ background: linear-gradient(90deg, #a7f3d0, #60a5fa); }
 
+/* Subheader (title + weather + customer) */
+.subheader{ position:sticky; top:var(--header-h); z-index:1175; background: rgba(255,255,255,0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding:8px 12px; display:flex; align-items:center; gap:12px }
+.subheader__title{ font-weight:800; font-size:18px; color:#0f172a }
+.subheader__spacer{ flex:1 }
+
+
+/* Responsive (mobile) */
+@media (max-width: 768px){
+  :root{ --header-h:72px; --subheader-h:64px }
+  .layout{ grid-template-columns: 1fr; gap: 8px; padding: 8px }
+  .app__header{ flex-wrap: wrap; gap: 8px }
+  .app__header h1{ font-size: 18px; margin: 0 }
+  .summary{ gap: 8px; font-size: 12px }
+  .card{ border-radius: 12px; padding: 10px }
+  .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px }
+  .tabbar{ top: calc(var(--header-h) + var(--subheader-h)) }
+  .weatherbar{ font-size: 12px; padding: 6px 8px }
+}
 

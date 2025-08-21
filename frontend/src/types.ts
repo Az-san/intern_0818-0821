@@ -23,7 +23,7 @@ export type Piece = {
 
 export type CatalogItem = { id: string; name: string; type: 'restaurant'|'activity'|'hotel'; durationMin: number; priceMin: number; lat?: number; lng?: number; category?: string; staffPick?: boolean; indoor?: boolean }
 
-export type Customer = { id: string; adults: number; children: number; seniors: number; stroller: boolean; wheelchair: boolean }
+export type Customer = { id: string; adults: number; children: number; seniors: number; stroller: boolean; wheelchair: boolean; displayName?: string }
 
 export type Itinerary = { id?: string; items: Piece[]; totals: { walkM: number; moves: number; costYen: number } }
 

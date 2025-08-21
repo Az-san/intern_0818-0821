@@ -1,4 +1,5 @@
 import os
+import random
 import sqlite3
 import csv
 import json
@@ -7,6 +8,7 @@ from urllib.request import urlopen
 from urllib.parse import urlencode
 
 from fastapi import FastAPI, Query
+from typing import Optional
 from fastapi.middleware.cors import CORSMiddleware
 
 APP_DIR = os.path.dirname(__file__)
@@ -14,10 +16,28 @@ ROOT_DIR = os.path.dirname(APP_DIR)
 DB_PATH = os.path.join(APP_DIR, "app.db")
 
 app = FastAPI(title="Itinerary Demo API")
+def _lookup_display_name(customer_id: str) -> Optional[str]:
+    """Lookup display name from CSV (姓+名)。"""
+    try:
+        csv_path = os.path.join(ROOT_DIR, "data", "customer.csv")
+        if os.path.exists(csv_path):
+            with open(csv_path, "r", encoding="utf-8-sig", newline="") as f:
+                reader = csv.DictReader(f)
+                for r in reader:
+                    if (r.get("顧客ID") or "").strip() == customer_id:
+                        last = (r.get("姓") or "").strip()
+                        first = (r.get("名") or "").strip()
+                        if last and first:
+                            return f"{last}{first}"
+                        return last or first or None
+    except Exception:
+        return None
+    return None
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=["*"],  # dev: allow all origins so phones on LAN can access
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -181,8 +201,11 @@ async def get_customer(customer_id: str):
     conn.row_factory = sqlite3.Row
     try:
         row = conn.execute("SELECT * FROM customers WHERE id = ?", (customer_id,)).fetchone()
+
+        display_name: Optional[str] = _lookup_display_name(customer_id)
+
         if not row:
-            return {"id": customer_id, "adults": 2, "children": 0, "seniors": 0, "stroller": False, "wheelchair": False}
+            return {"id": customer_id, "adults": 2, "children": 0, "seniors": 0, "stroller": False, "wheelchair": False, "displayName": display_name}
         return {
             "id": row["id"],
             "adults": row["adults"],
@@ -190,6 +213,32 @@ async def get_customer(customer_id: str):
             "seniors": row["seniors"],
             "stroller": bool(row["stroller"]),
             "wheelchair": bool(row["wheelchair"]),
+            "displayName": display_name,
+        }
+    finally:
+        conn.close()
+
+
+@app.get("/customers/random")
+async def get_random_customer():
+    """Return a random customer id C001..C100 (no CSV dependency) and enrich from DB/CSV."""
+    chosen = f"C{random.randint(1,100):03d}"
+    # 2) reuse get_customer logic
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    try:
+        row = conn.execute("SELECT * FROM customers WHERE id = ?", (chosen,)).fetchone()
+        display_name: Optional[str] = _lookup_display_name(chosen)
+        if not row:
+            return {"id": chosen, "adults": 2, "children": 0, "seniors": 0, "stroller": False, "wheelchair": False, "displayName": display_name}
+        return {
+            "id": row["id"],
+            "adults": row["adults"],
+            "children": row["children"],
+            "seniors": row["seniors"],
+            "stroller": bool(row["stroller"]),
+            "wheelchair": bool(row["wheelchair"]),
+            "displayName": display_name,
         }
     finally:
         conn.close()

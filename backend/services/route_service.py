@@ -48,19 +48,45 @@ class RouteService:
                 
                 # 観光地詳細情報を取得
                 dest_details = None
-                if 'destination_id' in dest:
-                    dest_details = self.data_loader.get_destination_by_id(dest['destination_id'])
-                
-                destination_info.append({
-                    'destination_id': dest.get('destination_id'),
-                    'latitude': lat,
-                    'longitude': lon,
-                    'name': dest_details.get('name') if dest_details else f"地点{len(destination_info)+1}",
-                    'estimated_stay_minutes': int(dest_details.get('estimated_duration_minutes', 60)) if dest_details else 60
-                })
+                dest_id = str(dest.get('destination_id') or '')
+                if dest_id:
+                    dest_details = self.data_loader.get_destination_by_id(dest_id)
+
+                # START（ホテル出発）を特別扱い
+                if dest_id.upper() == 'START':
+                    destination_info.append({
+                        'destination_id': 'START',
+                        'latitude': lat,
+                        'longitude': lon,
+                        'name': 'ホテル',
+                        'estimated_stay_minutes': 0,
+                    })
+                else:
+                    destination_info.append({
+                        'destination_id': dest.get('destination_id'),
+                        'latitude': lat,
+                        'longitude': lon,
+                        'name': (dest_details.get('name') if dest_details else f"地点{len(destination_info)+1}"),
+                        'estimated_stay_minutes': (int(dest_details.get('estimated_duration_minutes', 60)) if dest_details else 60)
+                    })
             
-            # OSRM でルート計算（代替ルートを抑止、道路へスナップ）
+            # OSRM でルート計算（正確性重視でスナップON）
+            print(f"🔍 OSRM API呼び出し開始: {len(coordinates)}地点")
+            print(f"📍 座標: {coordinates}")
+            
             route_data = self.osrm_client.get_route(coordinates, profile='driving', snap=True)
+            
+            print(f"📊 OSRM API結果: {route_data is not None}")
+            if route_data:
+                print(f"✅ ルート取得成功: 距離{route_data.get('distance_km', 'N/A')}km, 時間{route_data.get('duration_minutes', 'N/A')}分")
+                print(f"📊 ルートデータ詳細:")
+                print(f"   - ジオメトリ: {type(route_data.get('geometry', 'N/A'))}")
+                print(f"   - 座標数: {len(route_data.get('geometry', {}).get('coordinates', [])) if route_data.get('geometry') else 'N/A'}")
+                print(f"   - 距離: {route_data.get('distance_km', 'N/A')}km")
+                print(f"   - 時間: {route_data.get('duration_minutes', 'N/A')}分")
+                print(f"   - 全データ: {route_data}")
+            else:
+                print(f"❌ ルート取得失敗: OSRM APIがNoneを返しました")
             
             if not route_data:
                 return {
@@ -102,9 +128,74 @@ class RouteService:
         訪問順序を最適化したルートを計算
         現在は単純な順序で処理、将来的にTSP最適化を実装予定
         """
-        # 現在は入力順序をそのまま使用
-        # 将来実装: Traveling Salesman Problem (TSP) アルゴリズム
-        return self.calculate_route(destinations)
+        try:
+            if not destinations or len(destinations) < 2:
+                return {
+                    'status': 'error',
+                    'message': '最低2つの観光地が必要です'
+                }
+
+            # 準備: coordinates/destination_info を作成
+            coords: List[Tuple[float, float]] = []
+            info: List[Dict] = []
+            for dest in destinations:
+                lat = float(dest['latitude']); lon = float(dest['longitude'])
+                coords.append((lon, lat))
+                dest_id = str(dest.get('destination_id') or '')
+                details = self.data_loader.get_destination_by_id(dest_id) if dest_id else None
+                if dest_id.upper() == 'START':
+                    info.append({
+                        'destination_id': 'START', 'latitude': lat, 'longitude': lon,
+                        'name': 'ホテル', 'estimated_stay_minutes': 0,
+                    })
+                else:
+                    info.append({
+                        'destination_id': dest.get('destination_id'), 'latitude': lat, 'longitude': lon,
+                        'name': (details.get('name') if details else f"地点{len(info)+1}"),
+                        'estimated_stay_minutes': (int(details.get('estimated_duration_minutes', 60)) if details else 60)
+                    })
+
+            # Nearest Neighbor で順序最適化（0番目＝出発地固定）
+            order = [0]
+            remaining = list(range(1, len(coords)))
+            def hav(a, b):
+                import math
+                (lon1, lat1), (lon2, lat2) = coords[a], coords[b]
+                R=6371.0
+                dlat=math.radians(lat2-lat1); dlon=math.radians(lon2-lon1)
+                x=math.sin(dlat/2)**2 + math.cos(math.radians(lat1))*math.cos(math.radians(lat2))*math.sin(dlon/2)**2
+                return 2*R*math.asin(min(1, math.sqrt(x)))
+            while remaining:
+                cur = order[-1]
+                nxt = min(remaining, key=lambda j: hav(cur, j))
+                order.append(nxt)
+                remaining.remove(nxt)
+
+            coords_ord = [coords[i] for i in order]
+            info_ord = [info[i] for i in order]
+
+            route_data = self.osrm_client.get_route(coords_ord, profile='driving', snap=True)
+            if not route_data:
+                return { 'status': 'error', 'message': 'ルート計算に失敗しました' }
+
+            return {
+                'status': 'success',
+                'route': {
+                    'geometry': route_data['geometry'],
+                    'total_distance_km': route_data['distance_km'],
+                    'total_duration_minutes': route_data['duration_minutes'],
+                    'waypoints': self._create_waypoints_info(info_ord, route_data)
+                },
+                'destinations': info_ord,
+                'summary': {
+                    'total_destinations': len(info_ord),
+                    'total_travel_time': route_data['duration_minutes'],
+                    'total_stay_time': sum(d['estimated_stay_minutes'] for d in info_ord),
+                    'estimated_total_time': route_data['duration_minutes'] + sum(d['estimated_stay_minutes'] for d in info_ord)
+                }
+            }
+        except Exception as e:
+            return { 'status': 'error', 'message': f'最適化中にエラー: {e}' }
     
     def _create_waypoints_info(self, destinations: List[Dict], route_data: Dict) -> List[Dict]:
         """ウェイポイント情報を作成"""

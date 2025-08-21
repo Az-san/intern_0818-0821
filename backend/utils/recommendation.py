@@ -40,6 +40,18 @@ class RecommendationEngine:
         # 観光地の人気度（推定滞在時間による調整）
         popularity_score = self._calculate_popularity_score(destination)
         score += popularity_score
+
+        # 予算適合（price_min/max_yen を参照）
+        score += self._calculate_budget_score(customer, destination)
+
+        # 混雑回避（crowd_level が小さいほど加点）
+        score += self._calculate_crowd_score(customer, destination)
+
+        # アクセシビリティ（ベビーカー/車椅子）
+        score += self._calculate_accessibility_score(customer, destination)
+
+        # 天気・季節の適性調整
+        score += self._calculate_weather_season_score(customer, destination)
         
         return min(score, 1.0)  # 最大1.0に制限
     
@@ -97,6 +109,55 @@ class RecommendationEngine:
                 
         except (ValueError, TypeError):
             return 0.05
+
+    def _calculate_budget_score(self, customer: Dict, destination: Dict) -> float:
+        try:
+            budget = customer.get('budget_yen')
+            if budget is None:
+                return 0.0
+            low = destination.get('price_min_yen')
+            high = destination.get('price_max_yen') or low
+            if low is None and high is None:
+                return 0.0
+            # 価格帯が予算以下→加点、超過→減点
+            mid = (low or high or 0 + high or low or 0) / 2 if (low or high) else 0
+            price = mid or low or high or 0
+            if price <= budget:
+                return 0.12
+            # 予算をどれくらい超えているか
+            ratio = min(2.0, (price / max(1, budget)))
+            return -0.12 * (ratio - 1.0)  # 最大で -0.12
+        except Exception:
+            return 0.0
+
+    def _calculate_crowd_score(self, customer: Dict, destination: Dict) -> float:
+        try:
+            pref = (customer.get('crowd_avoid') or 'off')
+            level = destination.get('crowd_level')
+            if level is None or pref == 'off':
+                return 0.0
+            # level: 0(空)-5(混) として、midは-0.05*level、highは-0.09*level
+            weight = 0.05 if pref == 'mid' else 0.09
+            return -weight * float(level)
+        except Exception:
+            return 0.0
+
+    def _calculate_accessibility_score(self, customer: Dict, destination: Dict) -> float:
+        try:
+            stroller = bool(customer.get('needs_stroller'))
+            wheelchair = bool(customer.get('needs_wheelchair'))
+            if not (stroller or wheelchair):
+                return 0.0
+            s_ok = destination.get('stroller_friendly')
+            bf_ok = destination.get('barrier_free')
+            score = 0.0
+            if stroller:
+                score += (0.08 if s_ok else -0.08)
+            if wheelchair:
+                score += (0.10 if bf_ok else -0.10)
+            return score
+        except Exception:
+            return 0.0
     
     def _get_age_group(self, age: int) -> str:
         """年齢から年齢層を判定"""
@@ -121,6 +182,48 @@ class RecommendationEngine:
         scored_destinations.sort(key=lambda x: x['recommendation_score'], reverse=True)
         
         return scored_destinations
+
+    def _calculate_weather_season_score(self, customer: Dict, destination: Dict) -> float:
+        """天気(sunny/rainy/cloudy)と季節(spring/summer/autumn/winter)に応じた加点/減点"""
+        weather = (customer.get('weather') or 'sunny').lower()
+        season = (customer.get('season') or 'spring').lower()
+        category = (destination.get('category') or '')
+        tags = set(destination.get('tags') or [])
+        indoor = bool(destination.get('indoor'))
+
+        w = 0.0
+        # 天気
+        if weather == 'sunny':
+            # 屋外・ビーチ・絶景
+            if not indoor: w += 0.06
+            if 'ビーチ' in category or 'ビーチ' in tags: w += 0.06
+            if '絶景' in tags or '景観' in tags: w += 0.04
+        elif weather == 'rainy':
+            # 屋内・ショッピング・文化、屋外は減点
+            if indoor: w += 0.08
+            if 'ショッピング' in category or 'ショッピング' in tags: w += 0.06
+            if '文化' in category or '美術館' in tags or '博物館' in tags: w += 0.05
+            if not indoor: w -= 0.06
+        elif weather == 'cloudy':
+            # 屋内・文化施設を少しプラス
+            if indoor: w += 0.04
+            if '文化' in category or '美術館' in tags or '博物館' in tags: w += 0.03
+
+        # 季節
+        if season == 'spring':
+            if '自然' in category or '花' in tags or 'ハイキング' in tags: w += 0.06
+        elif season == 'summer':
+            if 'ビーチ' in category or 'ビーチ' in tags: w += 0.08
+            if 'マリンスポーツ' in tags: w += 0.06
+            if indoor: w += 0.02  # 暑さ対策で屋内を少し優遇
+        elif season == 'autumn':
+            if '自然' in category or '景観' in tags or 'ハイキング' in tags: w += 0.06
+        elif season == 'winter':
+            if indoor: w += 0.05
+            if '温泉' in tags: w += 0.07
+            if 'ショッピング' in category or 'ショッピング' in tags: w += 0.04
+
+        return w
 
 # シングルトンインスタンス
 recommendation_engine = RecommendationEngine()

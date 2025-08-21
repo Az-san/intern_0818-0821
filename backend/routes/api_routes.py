@@ -7,6 +7,7 @@ from flask import Blueprint, request, jsonify
 from services.destination_service import DestinationService
 from services.route_service import RouteService
 from services.itinerary_service import ItineraryService
+from data.data_loader import data_loader
 
 api_bp = Blueprint('api', __name__)
 
@@ -22,6 +23,12 @@ def get_destinations():
         customer_id = request.args.get('customer_id')
         weather = request.args.get('weather', 'sunny')
         season = request.args.get('season', 'spring')
+        budget_yen = request.args.get('budget_yen')
+        crowd_avoid = request.args.get('crowd_avoid')
+        try:
+            budget_yen = int(budget_yen) if budget_yen is not None else None
+        except Exception:
+            budget_yen = None
         
         if not customer_id:
             return jsonify({
@@ -32,7 +39,9 @@ def get_destinations():
         result = destination_service.get_recommended_destinations(
             customer_id=customer_id,
             weather=weather,
-            season=season
+            season=season,
+            budget_yen=budget_yen,
+            crowd_avoid=crowd_avoid
         )
         
         return jsonify(result)
@@ -55,7 +64,8 @@ def get_route():
                 'message': 'destinationsが必要です'
             }), 400
         
-        result = route_service.calculate_route(data['destinations'])
+        optimize = bool(data.get('optimize'))
+        result = route_service.get_optimized_route(data['destinations']) if optimize else route_service.calculate_route(data['destinations'])
         
         return jsonify(result)
     
@@ -64,6 +74,49 @@ def get_route():
             'status': 'error',
             'message': f'エラーが発生しました: {str(e)}'
         }), 500
+
+@api_bp.route('/test-osrm', methods=['GET'])
+def test_osrm_connection():
+    """OSRM接続テストAPI"""
+    try:
+        from utils.osrm_client import osrm_client
+        
+        # 接続テストを実行
+        success = osrm_client.test_connection()
+        
+        return jsonify({
+            'status': 'success' if success else 'error',
+            'message': 'OSRM接続テスト完了',
+            'current_server': osrm_client.base_url,
+            'available_servers': osrm_client.base_urls,
+            'connection_success': success
+        })
+    
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'OSRM接続テストでエラーが発生しました: {str(e)}'
+        }), 500
+
+@api_bp.route('/customers', methods=['GET'])
+def list_customers():
+    """顧客一覧API（CSV/DB由来）"""
+    try:
+        customers = data_loader.load_customers()
+        return jsonify({ 'status': 'success', 'customers': customers })
+    except Exception as e:
+        return jsonify({ 'status': 'error', 'message': str(e) }), 500
+
+@api_bp.route('/customers/<customer_id>', methods=['GET'])
+def get_customer(customer_id: str):
+    """顧客詳細API"""
+    try:
+        customer = data_loader.get_customer_by_id(customer_id)
+        if not customer:
+            return jsonify({ 'status': 'error', 'message': 'not found' }), 404
+        return jsonify({ 'status': 'success', 'customer': customer })
+    except Exception as e:
+        return jsonify({ 'status': 'error', 'message': str(e) }), 500
 
 @api_bp.route('/itinerary', methods=['POST'])
 def create_itinerary():

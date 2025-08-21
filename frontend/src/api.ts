@@ -25,6 +25,12 @@ export async function fetchCustomer(id: string): Promise<Customer> {
   return await res.json()
 }
 
+export async function fetchRandomCustomer(): Promise<Customer> {
+  const res = await fetch(`${API_BASE}/customers/random`)
+  if (!res.ok) throw new Error('random customer not found')
+  return await res.json()
+}
+
 export async function fetchWeather(lat = 26.212, lon = 127.679): Promise<{ temperatureC: number; humidity: number; raining: boolean; feelsIcon: string }>{
   const res = await fetch(`${API_BASE}/weather/current?lat=${lat}&lon=${lon}`)
   if (!res.ok) throw new Error('weather error')
@@ -43,20 +49,24 @@ export async function fetchPhotoUrl(query: string): Promise<string | null> {
 }
 
 // New Flask API (backend/app.py -> /api/*)
-export async function fetchDestinations(customerId: string, params?: { weather?: string; season?: string }) {
+export async function fetchDestinations(customerId: string, params?: { weather?: string; season?: string; budget_yen?: number; crowd_avoid?: 'off'|'mid'|'high' }) {
   const url = new URL(`${API2_BASE}/api/destinations`)
   url.searchParams.set('customer_id', customerId)
   if (params?.weather) url.searchParams.set('weather', params.weather)
   if (params?.season) url.searchParams.set('season', params.season)
+  if (typeof params?.budget_yen === 'number') url.searchParams.set('budget_yen', String(params.budget_yen))
+  if (params?.crowd_avoid) url.searchParams.set('crowd_avoid', params.crowd_avoid)
   const res = await fetch(url.toString())
   if (!res.ok) throw new Error('destinations error')
   const data = await res.json()
   if (data.status !== 'success') throw new Error(data.message || 'destinations failed')
-  return data as { status: string; destinations: Array<{ destination_id: string; name: string; latitude: number; longitude: number; category?: string; estimated_duration?: number }> }
+  return data as { status: string; destinations: Array<{ destination_id: string; name: string; latitude: number; longitude: number; category?: string; estimated_duration?: number }>; others?: Array<{ destination_id: string; name: string; latitude: number; longitude: number; category?: string; estimated_duration?: number }> }
 }
 
-export async function fetchRoute(destinations: Array<{ destination_id?: string; latitude: number; longitude: number }>) {
-  const res = await fetch(`${API2_BASE}/api/route`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ destinations }) })
+export async function fetchRoute(destinations: Array<{ destination_id?: string; latitude: number; longitude: number }>, opts?: { optimize?: boolean; signal?: AbortSignal }) {
+  const body: any = { destinations }
+  if (opts?.optimize) body.optimize = true
+  const res = await fetch(`${API2_BASE}/api/route`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: opts?.signal })
   if (!res.ok) throw new Error('route error')
   return await res.json()
 }
