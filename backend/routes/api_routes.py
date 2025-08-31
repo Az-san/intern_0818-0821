@@ -7,6 +7,7 @@ from flask import Blueprint, request, jsonify
 from services.destination_service import DestinationService
 from services.route_service import RouteService
 from services.itinerary_service import ItineraryService
+from services.llm_reranker import LLMReranker, SUGGEST_SCHEMA
 from data.data_loader import data_loader
 
 api_bp = Blueprint('api', __name__)
@@ -15,6 +16,7 @@ api_bp = Blueprint('api', __name__)
 destination_service = DestinationService()
 route_service = RouteService()
 itinerary_service = ItineraryService()
+llm_reranker = LLMReranker()
 
 @api_bp.route('/destinations', methods=['GET'])
 def get_destinations():
@@ -186,6 +188,46 @@ def plan_llm():
             })
 
         return jsonify({ 'status': 'success', 'blocks': blocks })
+    except Exception as e:
+        return jsonify({ 'status': 'error', 'message': str(e) }), 500
+
+@api_bp.route('/plan/suggest', methods=['POST'])
+def plan_suggest():
+    """LLM 再ランキング API。候補 TopN を受け取り、ranked/rejected を返す。
+    入力例:
+    {
+      "customer_id": "C001",
+      "constraints": {"weather":"sunny","season":"summer","budget_yen":5000,"crowd_avoid":"mid"},
+      "candidates": [ {"destination_id":"a001", ...}, ... ],
+      "top_k": 10,
+      "model_profile": "cheap|balanced|quality"
+    }
+    """
+    try:
+        data = request.get_json() or {}
+        customer_id = data.get('customer_id')
+        constraints = data.get('constraints') or {}
+        candidates = data.get('candidates') or []
+        top_k = int(data.get('top_k') or 10)
+        model_profile = data.get('model_profile') or 'balanced'
+
+        if not customer_id:
+            return jsonify({ 'status': 'error', 'message': 'customer_id が必要です' }), 400
+        if not candidates:
+            # サーバ側で推薦TopNを補う: 既存エンジンからTop50を取得
+            base = destination_service.get_recommended_destinations(customer_id=customer_id, limit=50,
+                weather=constraints.get('weather') or 'sunny',
+                season=constraints.get('season') or 'spring',
+                budget_yen=constraints.get('budget_yen'),
+                crowd_avoid=constraints.get('crowd_avoid'))
+            if base.get('status') != 'success':
+                return jsonify(base), 400
+            candidates = base.get('destinations', []) + base.get('others', [])
+
+        customer = data_loader.get_customer_by_id(customer_id) or { '顧客ID': customer_id }
+        result = llm_reranker.rerank(customer, constraints, candidates, top_k=top_k, model_profile=model_profile)
+
+        return jsonify({ 'status': 'success', 'suggest': result })
     except Exception as e:
         return jsonify({ 'status': 'error', 'message': str(e) }), 500
 
