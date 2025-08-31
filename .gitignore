@@ -30,6 +30,7 @@ next-env.d.ts
 frontend/node_modules/
 hotel-app/node_modules/
 **/node_modules/
+**/.venv/
 
 # python backend
 backend/venv/
