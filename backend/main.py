@@ -13,7 +13,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 APP_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.dirname(APP_DIR)
-DB_PATH = os.path.join(APP_DIR, "app.db")
+# Store SQLite DB under instance/ so it's outside source control and suitable for local envs
+INSTANCE_DIR = os.path.join(APP_DIR, "instance")
+os.makedirs(INSTANCE_DIR, exist_ok=True)
+DB_PATH = os.path.join(INSTANCE_DIR, "app.db")
 
 app = FastAPI(title="Itinerary Demo API")
 def _lookup_display_name(customer_id: str) -> Optional[str]:

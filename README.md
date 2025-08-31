@@ -22,8 +22,8 @@
 ```powershell
 # backend (Flask/FastAPI)
 cd backend
-python -m venv .venv
-. .venv\Scripts\Activate.ps1
+python -m venv venv
+. venv\Scripts\Activate.ps1
 pip install -U pip
 pip install -r requirements.txt
 
@@ -54,14 +54,14 @@ PowerShell でプロジェクトルートから順に実行してください。
 1) バックエンド（Flask 5001: /api/*）
 ```powershell
 cd backend
-. .venv\Scripts\Activate.ps1
+. venv\Scripts\Activate.ps1
 python start_server.py  # 0.0.0.0:5001 で起動
 ```
 
 2) バックエンド（FastAPI 8000）
 ```powershell
 cd backend
-. .venv\Scripts\Activate.ps1
+. venv\Scripts\Activate.ps1
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
@@ -102,6 +102,8 @@ npm run dev -- -H 0.0.0.0 -p 3000
 ## 旅行プランの推薦システム
 
 バックエンドの Flask API（`/api/destinations`）で候補地をスコアリングし、推薦とその他を返します。
+
+補足: SQLite は `backend/instance/app.db` に配置されます（自動作成）。`backend/instance/` は Git から除外されています。
 
 - 入力（クエリ）
   - `customer_id`: 例 `C001`

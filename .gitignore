@@ -36,6 +36,8 @@ backend/venv/
 backend/**/__pycache__/
 backend/.pytest_cache/
 backend/*.db
+backend/instance/
+backend/instance/*.db
 
 # frontend build artifacts
 frontend/dist/
