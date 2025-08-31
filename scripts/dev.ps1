@@ -23,7 +23,7 @@ $api = Start-Job -ScriptBlock {
 Start-Sleep -Seconds 1
 
 $frontend = Start-Job -ScriptBlock {
-  Set-Location "$PWD\frontend"
+  Set-Location "$PWD\hotel-app\planner"
   npm install --no-fund --no-audit
   npm run dev -- --host 0.0.0.0 --port 5173
 }

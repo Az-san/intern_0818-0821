@@ -4,8 +4,8 @@
 
 ### 構成
 - backend: Flask `:5001`（/api/*）、FastAPI `:8000`
-- frontend（旅行プランナー）: Vite `:5173`
 - hotel-app（ホテルアプリ）: Next.js `:3000`
+  - planner（旅行プランナー）: Vite `:5173` を `/planner/*` で開発プロキシ
 - DB: `backend/instance/app.db`（自動作成・Git除外）
 
 ### セットアップ
@@ -31,8 +31,8 @@ cd backend; . venv\Scripts\Activate.ps1; python start_server.py
 # FastAPI (8000)
 cd backend; . venv\Scripts\Activate.ps1; uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
-# 旅行プランナー (5173)
-cd frontend; npm run dev -- --host 0.0.0.0 --port 5173
+# 旅行プランナー (5173) - ホテルアプリ配下
+cd hotel-app/planner; npm run dev -- --host 0.0.0.0 --port 5173
 
 # ホテルアプリ (3000)
 cd hotel-app; npm run dev -- -H 0.0.0.0 -p 3000
