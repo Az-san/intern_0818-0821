@@ -24,3 +24,4 @@ export const FixModal: React.FC<Props> = ({ onClose, onApply }) => {
 
 
 
+

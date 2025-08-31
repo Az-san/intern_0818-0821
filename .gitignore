@@ -25,3 +25,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# monorepo additions
+frontend/node_modules/
+hotel-app/node_modules/
+**/node_modules/
+
+# python backend
+backend/venv/
+backend/**/__pycache__/
+backend/.pytest_cache/
+backend/*.db
+
+# frontend build artifacts
+frontend/dist/
+**/.next/
+**/out/
