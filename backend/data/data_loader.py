@@ -52,9 +52,8 @@ class DataLoader:
     def load_customers(self) -> List[Dict]:
         """顧客データを読み込み"""
         if self._customers_cache is None:
-            # プロジェクトルートのdataディレクトリを指定
-            project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-            customer_file = os.path.join(project_root, 'data', 'customer.csv')
+            # backend/data 配下を参照
+            customer_file = os.path.join(self._data_dir, 'customer.csv')
             self._customers_cache = self._load_csv_absolute(customer_file)
             
             # 興味・関心タグの文字列を配列に変換
